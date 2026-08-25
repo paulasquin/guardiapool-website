@@ -1,0 +1,9 @@
+# Configuration locale de l'éditeur / du harnais
+.claude/
+
+# Dumps de l'ancien WordPress : contiennent les comptes utilisateurs
+# et leurs hashes de mots de passe. Ne jamais versionner.
+*.sql
+*.sql.gz
+
+.DS_Store

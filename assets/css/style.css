@@ -1,0 +1,206 @@
+/* Guardiapool — feuille de style unique, sans dépendance externe. */
+
+:root {
+  --bleu:        #0b3d5c;
+  --bleu-clair:  #1a6f9e;
+  --eau:         #2fa8c8;
+  --encre:       #16232b;
+  --gris:        #5a6b74;
+  --gris-clair:  #eef3f6;
+  --bordure:     #d8e3e9;
+  --blanc:       #ffffff;
+  --alerte:      #c0392b;
+  --rayon:       10px;
+  --largeur:     1080px;
+  --ombre:       0 1px 3px rgba(11, 61, 92, .08), 0 8px 24px rgba(11, 61, 92, .06);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--encre);
+  background: var(--blanc);
+}
+
+img, video { max-width: 100%; height: auto; display: block; }
+
+a { color: var(--bleu-clair); }
+a:hover { color: var(--bleu); }
+
+.contenu { max-width: var(--largeur); margin: 0 auto; padding: 0 20px; }
+
+/* ---------- En-tête ---------- */
+
+.site-entete {
+  border-bottom: 1px solid var(--bordure);
+  background: var(--blanc);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.site-entete .contenu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 68px;
+  flex-wrap: wrap;
+}
+
+.logo { display: flex; align-items: center; text-decoration: none; color: var(--bleu); }
+.logo img { height: 42px; width: auto; }
+
+.nav { display: flex; gap: 4px; flex-wrap: wrap; }
+.nav a {
+  padding: 8px 14px;
+  border-radius: var(--rayon);
+  text-decoration: none;
+  color: var(--gris);
+  font-weight: 500;
+  font-size: .96rem;
+}
+.nav a:hover { background: var(--gris-clair); color: var(--bleu); }
+.nav a[aria-current="page"] { background: var(--bleu); color: var(--blanc); }
+
+/* ---------- Hero ---------- */
+
+.hero { padding: 56px 0 40px; text-align: center; }
+.hero h1 {
+  font-size: clamp(1.9rem, 5vw, 3rem);
+  line-height: 1.15;
+  margin: 0 0 20px;
+  color: var(--bleu);
+  letter-spacing: -.02em;
+}
+.hero .accroche { font-size: 1.15rem; color: var(--gris); max-width: 680px; margin: 0 auto 12px; }
+
+.hero-visuel { margin: 36px auto 0; max-width: 560px; }
+.hero-visuel img { border-radius: var(--rayon); box-shadow: var(--ombre); margin: 0 auto; }
+
+/* ---------- Boutons ---------- */
+
+.bouton {
+  display: inline-block;
+  padding: 13px 26px;
+  border-radius: var(--rayon);
+  background: var(--bleu);
+  color: var(--blanc) !important;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid var(--bleu);
+}
+.bouton:hover { background: var(--bleu-clair); border-color: var(--bleu-clair); }
+.bouton.secondaire { background: transparent; color: var(--bleu) !important; }
+.bouton.secondaire:hover { background: var(--gris-clair); }
+.actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+
+/* ---------- Sections ---------- */
+
+.section { padding: 48px 0; border-top: 1px solid var(--bordure); }
+.section > .contenu > h2 {
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  color: var(--bleu);
+  margin: 0 0 8px;
+  letter-spacing: -.01em;
+}
+.section .intro { color: var(--gris); margin: 0 0 32px; max-width: 720px; }
+
+.grille { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+.carte {
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  padding: 22px;
+  background: var(--blanc);
+}
+.carte h3 { margin: 0 0 8px; font-size: 1.06rem; color: var(--bleu); }
+.carte p { margin: 0; color: var(--gris); font-size: .97rem; }
+
+/* ---------- Vidéos ---------- */
+
+.videos { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.video figure { margin: 0; }
+.video video { border-radius: var(--rayon); background: #000; width: 100%; box-shadow: var(--ombre); }
+.video figcaption { margin-top: 12px; color: var(--gris); font-size: .96rem; }
+
+/* ---------- Chiffres ---------- */
+
+.chiffres { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.chiffre {
+  border-left: 3px solid var(--alerte);
+  padding: 6px 0 6px 18px;
+  color: var(--encre);
+  font-size: 1.02rem;
+}
+
+/* ---------- Partenaires ---------- */
+
+.partenaires {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 34px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+.partenaires img { max-height: 62px; width: auto; opacity: .85; }
+.partenaires img:hover { opacity: 1; }
+
+/* ---------- Prose (mentions légales) ---------- */
+
+.prose { max-width: 760px; padding: 40px 0 56px; }
+.prose h1 { font-size: 1.9rem; color: var(--bleu); margin: 0 0 6px; letter-spacing: -.01em; }
+.prose h2 { font-size: 1.2rem; color: var(--bleu); margin: 34px 0 8px; }
+.prose h3 { font-size: 1.04rem; margin: 24px 0 6px; }
+.prose p, .prose li { color: var(--encre); }
+.prose .date { color: var(--gris); font-size: .93rem; margin-bottom: 28px; }
+.prose ul { padding-left: 22px; }
+
+/* ---------- Bandeau contact ---------- */
+
+.bandeau {
+  background: var(--gris-clair);
+  border-radius: var(--rayon);
+  padding: 34px 26px;
+  text-align: center;
+  margin: 8px 0;
+}
+.bandeau h2 { margin: 0 0 8px; color: var(--bleu); font-size: 1.4rem; }
+.bandeau p { margin: 0 0 20px; color: var(--gris); }
+
+/* ---------- Pied de page ---------- */
+
+.site-pied {
+  border-top: 1px solid var(--bordure);
+  margin-top: 48px;
+  padding: 34px 0;
+  font-size: .92rem;
+  color: var(--gris);
+}
+.site-pied .contenu { display: flex; gap: 20px; justify-content: space-between; flex-wrap: wrap; }
+.site-pied a { color: var(--gris); text-decoration: none; }
+.site-pied a:hover { color: var(--bleu); text-decoration: underline; }
+.site-pied nav { display: flex; gap: 16px; flex-wrap: wrap; }
+.site-pied .mention { max-width: 420px; }
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .hero { padding: 36px 0 28px; }
+  .section { padding: 36px 0; }
+  .site-entete .contenu {
+    min-height: 0;
+    padding: 10px 16px;
+    gap: 8px;
+  }
+  .logo img { height: 34px; }
+  /* La nav doit tenir sur une seule ligne à 375 px. */
+  .nav { gap: 2px; }
+  .nav a { padding: 7px 9px; font-size: .86rem; }
+}
