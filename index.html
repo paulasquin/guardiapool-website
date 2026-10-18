@@ -1,199 +1,346 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Guardiapool — Alarme de piscine intelligente</title>
-<meta name="description" content="Alarme de piscine périmétrique intelligente : une caméra autonome à IA embarquée qui prévient si un enfant s&#x27;approche seul du bassin.">
-<link rel="icon" type="image/webp" href="assets/img/Lighthouse.webp">
-<link rel="stylesheet" href="assets/css/style.css">
-<meta property="og:title" content="Guardiapool — Alarme de piscine intelligente">
-<meta property="og:description" content="Alarme de piscine périmétrique intelligente : une caméra autonome à IA embarquée qui prévient si un enfant s&#x27;approche seul du bassin.">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="fr_FR">
-<meta property="og:image" content="https://guardiapool.com/assets/img/Piscine-surveillee-par-Guardiapool-3.webp">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guardia — Alarme de piscine périmétrique intelligente</title>
+  <meta name="description" content="Alarme de piscine périmétrique intelligente : une caméra autonome à IA embarquée qui prévient si un enfant s&#x27;approche seul du bassin. Aucune image ne sort de chez vous.">
+  <meta name="theme-color" content="#04050c">
+  <link rel="canonical" href="https://guardiapool.com/">
+  <link rel="alternate" hreflang="fr" href="https://guardiapool.com/?lang=fr">
+  <link rel="alternate" hreflang="en" href="https://guardiapool.com/?lang=en">
+  <link rel="alternate" hreflang="x-default" href="https://guardiapool.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://guardiapool.com/">
+  <meta property="og:title" content="Guardia — Alarme de piscine périmétrique intelligente">
+  <meta property="og:description" content="Alarme de piscine périmétrique intelligente : une caméra autonome à IA embarquée qui prévient si un enfant s&#x27;approche seul du bassin. Aucune image ne sort de chez vous.">
+  <meta property="og:image" content="https://guardiapool.com/assets/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>
+    (function () {
+      var ok = ['fr', 'en'], lang = null;
+      try {
+        var q = new URLSearchParams(location.search).get('lang');
+        if (ok.indexOf(q) >= 0) { lang = q; localStorage.setItem('lang', q); }
+        else if (ok.indexOf(localStorage.getItem('lang')) >= 0) lang = localStorage.getItem('lang');
+      } catch (e) {}
+      if (!lang) {
+        var ls = navigator.languages || [navigator.language || ''];
+        for (var i = 0; i < ls.length && !lang; i++) { var b = String(ls[i]).slice(0, 2).toLowerCase(); if (ok.indexOf(b) >= 0) lang = b; }
+      }
+      document.documentElement.lang = lang || 'en';
+    })();
+  </script>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/img/icon-256.png">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/unbounded-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
+  <link href="assets/css/style.css" rel="stylesheet">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./assets/vendor/three.module.js"
+    }
+  }
+  </script>
 </head>
-<body>
+<body class="is-loading">
+  <canvas id="field" class="field" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
-<header class="site-entete">
-  <div class="contenu">
-    <a class="logo" href="./">
-      <img src="assets/img/cropped-Logo-GUARDIA.webp" alt="Guardiapool" height="42">
-    </a>
-    <nav class="nav">
-        <a href="" aria-current="page">Accueil</a>
-        <a href="videos/">Vidéos</a>
-        <a href="a-propos/">À propos</a>
-        <a href="contact/">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<main>
-  <section class="hero">
-    <div class="contenu">
-      <h1>Alarme de piscine périmétrique <br> intelligente et innovante</h1>
-      <p class="accroche">Notre alarme de piscine périmétrique est intelligente et prévient
-        si votre enfant s'approche seul de la piscine.</p>
-      <p class="accroche">Facile à installer, discrète et autonome, notre caméra intelligente
-        Guardia analyse la situation et évite les fausses alertes (vent, objets…).</p>
-      <div class="actions">
-        <a class="bouton" href="mailto:contact.guardiapool@gmail.com">Nous contacter</a>
-        <a class="bouton secondaire" href="videos/">Voir l'alarme en action</a>
-      </div>
-      <div class="hero-visuel">
-        <img src="assets/img/Piscine-surveillee-par-Guardiapool-3.webp"
-             alt="Piscine surveillée par la caméra Guardiapool" width="1024" height="1024">
-      </div>
+  <nav class="topnav" aria-label="Navigation principale" data-i18n-aria="nav.aria">
+    <a href="#top" class="brand" aria-label="Guardia"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lh-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fd6ff"/><stop offset="1" stop-color="#8b7bff"/></linearGradient></defs><g stroke="#6fd6ff" stroke-width="2.4" stroke-linecap="round"><line class="lh-ray" style="--i:0" x1="20.54" y1="20.67" x2="15.46" y2="22.52"/><line class="lh-ray" style="--i:1" x1="19.81" y1="16.07" x2="14.41" y2="15.89"/><line class="lh-ray" style="--i:2" x1="20.94" y1="11.34" x2="16.05" y2="9.06"/><line class="lh-ray" style="--i:3" x1="23.84" y1="7.43" x2="20.22" y2="3.42"/><line class="lh-ray" style="--i:4" x1="27.83" y1="5.04" x2="25.98" y2="-0.04"/><line class="lh-ray" style="--i:5" x1="32.00" y1="4.30" x2="32.00" y2="-1.10"/><line class="lh-ray" style="--i:6" x1="36.17" y1="5.04" x2="38.02" y2="-0.04"/><line class="lh-ray" style="--i:7" x1="40.16" y1="7.43" x2="43.78" y2="3.42"/><line class="lh-ray" style="--i:8" x1="43.06" y1="11.34" x2="47.95" y2="9.06"/><line class="lh-ray" style="--i:9" x1="44.19" y1="16.07" x2="49.59" y2="15.89"/><line class="lh-ray" style="--i:10" x1="43.46" y1="20.67" x2="48.54" y2="22.52"/></g><g fill="url(#lh-g)"><path d="M25.2 12.2L32 5.6l6.8 6.6z"/><path fill-rule="evenodd" d="M27.4 12.2h9.2v7.2h-9.2zM30 13.8v4h4v-4z"/><rect x="24.4" y="19.4" width="15.2" height="2.7" rx="1"/><path fill-rule="evenodd" d="M27.6 22.1h8.8l4.6 37H23zM26.06 34.5L37.2 28.5l.74 6-12.63 6zM24.32 48.5L38.87 42l.75 6-16.05 6.5z"/></g><rect class="lh-lamp" x="30" y="13.8" width="4" height="4" fill="#fff3d6"/></svg><span class="brand-text">Guardia</span></a>
+    <div class="nav-links">
+      <a href="#fonctionnement" data-i18n="nav.how">Le principe</a>
+      <a href="#detection" data-i18n="nav.detect">Détection</a>
+      <a href="#camera" data-i18n="nav.cam">La caméra</a>
+      <a href="#videos" data-i18n="nav.videos">Vidéos</a>
+      <a href="#a-propos" data-i18n="nav.about">À propos</a>
+      <a href="#contact">Contact</a>
     </div>
-  </section>
+    <div class="lang-switch" role="group" aria-label="Langue" data-i18n-aria="nav.lang">
+      <button type="button" data-lang="fr">FR</button><button type="button" data-lang="en">EN</button>
+    </div>
+  </nav>
 
-  <section class="section">
-    <div class="contenu">
-      <h2>L&#x27;alarme en situation</h2>
-      <div class="videos">
-        <div class="video">
-          <figure>
-            <video controls preload="metadata" playsinline>
-              <source src="assets/video/Danger-detecte.mp4" type="video/mp4">
-              Votre navigateur ne peut pas lire cette vidéo.
-            </video>
-            <figcaption>Un enfant non accompagné est détecté. L&#x27;alarme est déclenchée !</figcaption>
+  <main>
+    <!-- Hero -->
+    <section id="top" class="scene hero" data-shape="beacon" data-side="1">
+      <div class="wrap">
+        <div class="hero-content">
+          <p class="eyebrow"><span class="pulse-dot"></span><span data-i18n="hero.eyebrow">Alarme de piscine périmétrique · IA embarquée</span></p>
+          <h1 class="hero-title">
+            <span class="ht-line"><span class="ht-word"><span data-i18n="hero.t1">Veille sur</span></span></span>
+            <span class="ht-line"><span class="ht-word ht-glow"><span data-i18n="hero.t2">vos enfants</span></span></span>
+          </h1>
+          <ul class="service-lines">
+            <li><span class="sl-num">01</span><span data-i18n="hero.l1">Prévient si un enfant s'approche seul du bassin</span></li>
+            <li><span class="sl-num">02</span><span data-i18n="hero.l2">Reconnaît enfants, adultes et animaux</span></li>
+            <li><span class="sl-num">03</span><span data-i18n="hero.l3">Aucune image ne sort de chez vous</span></li>
+          </ul>
+          <p class="hero-sub" data-i18n="hero.sub">Facile à installer, discrète et autonome, la caméra intelligente Guardia analyse la situation autour de votre piscine et évite les fausses alertes (vent, ballons, bouées…).</p>
+          <div class="hero-cta">
+            <a href="#fonctionnement" class="btn btn-primary magnetic"><span data-i18n="hero.cta1">Voir l'alarme en action</span><span class="arrow">↓</span></a>
+            <a class="btn btn-ghost magnetic" href="mailto:contact.guardiapool@gmail.com"><span data-i18n="hero.cta2">Nous contacter</span><span class="arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-cue" aria-hidden="true"><span></span><i data-i18n="hero.scroll">Défiler</i></div>
+    </section>
+
+    <!-- The facts -->
+    <section id="constat" class="scene" data-shape="ripple" data-side="-1">
+      <div class="wrap wrap-right">
+        <div class="card reveal" style="--accent:#ff8a6b;--accent2:#ffb37a">
+          <p class="kicker" data-i18n="kp.k">Le constat</p>
+          <h2 class="title" data-i18n="kp.t">Quelques minutes <em>d'inattention</em></h2>
+          <p class="lede" data-i18n="kp.p">Les accidents surviennent le plus souvent pendant les périodes « floues », lorsque les adultes s'éloignent du bassin (repas, jardinage…). Les enfants échappent à leur attention quelques minutes, malheureusement suffisantes pour qu'un drame survienne.</p>
+          <dl class="kpis">
+            <div><dt><span data-i18n="kp1">des victimes de noyade en piscine privée ont moins de 6 ans</span></dt><dd><span data-count="75">75</span><small> %</small></dd></div>
+            <div><dt><span data-i18n="kp2">de noyades chez les moins de 6 ans entre 2015 et 2018</span></dt><dd>×2</dd></div>
+            <div><dt><span data-i18n="kp3">suffisent à un enfant pour se noyer dans 20 cm d'eau</span></dt><dd><span data-count="2">2</span><small> min</small></dd></div>
+            <div><dt><span data-i18n="kp4">des noyades : un dispositif de sécurité était présent mais n'a pas rempli sa fonction</span></dt><dd><span data-count="68">68</span><small> %</small></dd></div>
+          </dl>
+          <p class="source" data-i18n="kp.src">Source : enquêtes Noyades de Santé publique France.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works: the scenario plays as the page scrolls -->
+    <section id="fonctionnement" class="scene story" data-shape="watch" data-side="1">
+      <div class="story-stage">
+        <div class="wrap">
+          <div class="card story-card reveal">
+            <p class="kicker" data-i18n="st.k">Le principe · en trois temps</p>
+            <h2 class="title" data-i18n="st.t">Une seconde ligne <em>de protection</em></h2>
+            <p class="story-status" aria-live="polite"><span class="status-dot"></span><span class="story-state" data-state="0" data-i18n="st1.s">Zone surveillée</span><span class="story-state" data-state="1" data-i18n="st2.s">Enfant accompagné · aucune alerte</span><span class="story-state" data-state="2" data-i18n="st3.s">Enfant seul près de l'eau · alarme</span></p>
+            <ol class="story-steps">
+            <li class="story-step" data-step="0">
+              <span class="step-num">01</span>
+              <h3 data-i18n="st1.t">Surveiller</h3>
+              <p data-i18n="st1.p">Fixée à un mur, un arbre ou un poteau, la caméra surveille une large zone autour de la piscine.</p>
+            </li>
+            <li class="story-step" data-step="1">
+              <span class="step-num">02</span>
+              <h3 data-i18n="st2.t">Reconnaître</h3>
+              <p data-i18n="st2.p">Un enfant accompagné d'un adulte : tout va bien, l'alarme reste silencieuse. Plus besoin de la désactiver avant la baignade.</p>
+            </li>
+            <li class="story-step" data-step="2">
+              <span class="step-num">03</span>
+              <h3 data-i18n="st3.t">Alerter</h3>
+              <p data-i18n="st3.p">L'adulte s'éloigne, l'enfant s'approche seul de l'eau : une puissante alarme retentit avant l'accident et vous laisse le temps d'intervenir.</p>
+            </li>
+            </ol>
+            <div class="story-rail" aria-hidden="true"><span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detection -->
+    <section id="detection" class="scene" data-shape="pose" data-side="-1">
+      <div class="wrap wrap-right">
+        <div class="card reveal" style="--accent:#4fe0c0;--accent2:#6fd6ff">
+          <p class="kicker" data-i18n="dt.k">Détection intelligente</p>
+          <h2 class="title" data-i18n="dt.t">Elle reconnaît <em>qui s'approche</em></h2>
+          <p class="lede" data-i18n="dt.p">Notre intelligence artificielle embarquée reconnaît enfants, adultes et animaux. L'alarme évite ainsi les fausses alertes dues au vent, aux ballons ou aux bouées.</p>
+          <div class="services">
+            <div class="service">
+              <span class="svc-num">01</span>
+              <h3 data-i18n="dt1.t">Enfant ou adulte</h3>
+              <p data-i18n="dt1.p">L'alarme distingue un enfant d'un adulte, et sait si l'enfant est accompagné.</p>
+            </div>
+            <div class="service">
+              <span class="svc-num">02</span>
+              <h3 data-i18n="dt2.t">Animaux</h3>
+              <p data-i18n="dt2.p">Les animaux sont reconnus comme tels : ils ne sont pas pris pour un enfant.</p>
+            </div>
+            <div class="service">
+              <span class="svc-num">03</span>
+              <h3 data-i18n="dt3.t">Objets</h3>
+              <p data-i18n="dt3.p">Le vent, un ballon ou une bouée qui dérive ne déclenchent pas l'alarme.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="fonctionnalites" class="scene scene-short" data-shape="water" data-side="0">
+      <div class="wrap">
+        <div class="intro reveal">
+          <p class="kicker" data-i18n="ft.k">Fonctionnalités</p>
+          <h2 class="title title-xl" data-i18n="ft.t">Concrètement, <em>comment ça marche ?</em></h2>
+          <p class="lede center" data-i18n="ft.p">Une caméra autonome, une IA embarquée, aucune donnée qui sort de chez vous.</p>
+        </div>
+        <div class="tiles features">
+          <article class="tile feature reveal" style="--accent:#6fd6ff">
+            <span class="pillar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="4" stroke-dasharray="2.6 2.4"/><rect x="8.2" y="9.6" width="7.6" height="4.8" rx="1.2"/></svg></span>
+            <h3 data-i18n="ft1.t">Alarme périmétrique</h3>
+            <p data-i18n="ft1.p">La caméra surveille une large zone autour de la piscine et détecte si votre enfant s'en approche sans être accompagné d'un adulte.</p>
+          </article>
+          <article class="tile feature reveal" style="--accent:#ff8a6b">
+            <span class="pillar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15z"/><path d="M10.2 20.2a2 2 0 0 0 3.6 0"/></svg></span>
+            <h3 data-i18n="ft2.t">Anticipation précieuse</h3>
+            <p data-i18n="ft2.p">Une puissante alarme prévient avant qu'un accident ne survienne et vous laisse un temps décisif pour intervenir.</p>
+          </article>
+          <article class="tile feature reveal" style="--accent:#4fe0c0">
+            <span class="pillar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"/><circle cx="12" cy="9" r="2"/><path d="M8.5 17c.4-2.3 1.8-3.6 3.5-3.6s3.1 1.3 3.5 3.6"/></svg></span>
+            <h3 data-i18n="ft3.t">Détection intelligente</h3>
+            <p data-i18n="ft3.p">Notre intelligence artificielle embarquée reconnaît enfants, adultes et animaux, et évite les fausses alertes (vent, ballons, bouées…).</p>
+          </article>
+          <article class="tile feature reveal" style="--accent:#a78bff">
+            <span class="pillar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-6.5 8 6.5V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><rect x="9.5" y="12.8" width="5" height="4.4" rx=".8"/><path d="M10.6 12.8v-1.1a1.4 1.4 0 0 1 2.8 0v1.1"/></svg></span>
+            <h3 data-i18n="ft4.t">Respecte votre vie privée</h3>
+            <p data-i18n="ft4.p">Aucune donnée ne sort de chez vous. Le respect de votre vie privée est primordial.</p>
+          </article>
+          <article class="tile feature reveal" style="--accent:#6fd6ff">
+            <span class="pillar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.05-4.95"/><path d="M19.5 4.5V8H16"/><path d="M9.2 12.2l1.9 1.9 3.7-3.8"/></svg></span>
+            <h3 data-i18n="ft5.t">Fonctionnement autonome</h3>
+            <p data-i18n="ft5.p">Développée avec nos utilisateurs, l'alarme est intelligente et autonome. Plus besoin de la désactiver avant la baignade.</p>
+          </article>
+          <article class="tile feature reveal" style="--accent:#ffb37a">
+            <span class="pillar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 20V10"/><rect x="5.5" y="5.5" width="12" height="5" rx="1.4"/><circle cx="14.5" cy="8" r="1"/><path d="M4.5 20h5"/></svg></span>
+            <h3 data-i18n="ft6.t">Facile à installer</h3>
+            <p data-i18n="ft6.p">La caméra s'installe facilement (mur, arbre, poteau) et ne nécessite aucuns travaux autour de votre piscine.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- The camera -->
+    <section id="camera" class="scene" data-shape="camera" data-side="1">
+      <div class="wrap">
+        <div class="card card-wide product reveal">
+          <div class="product-shot"><img src="assets/img/Camera-Luxonis.webp" alt="Caméra intelligente Guardia" data-i18n-alt="cam.alt" width="500" height="500" loading="lazy"></div>
+          <div>
+            <p class="kicker" data-i18n="cam.k">Le produit</p>
+            <h2 class="title" data-i18n="cam.t">La caméra <em>intelligente Guardia</em></h2>
+            <p class="lede" data-i18n="cam.p">Une alarme sonore intégrée et un processeur d'intelligence artificielle : les images sont analysées par la caméra elle-même, au bord de votre piscine. Rien n'est envoyé sur internet.</p>
+            <dl class="kpis kpis-2">
+              <div><dt><span data-i18n="cam.k1">image envoyée dans le cloud</span></dt><dd><span data-count="0">0</span></dd></div>
+              <div><dt><span data-i18n="cam.k2">travaux autour de la piscine</span></dt><dd><span data-count="0">0</span></dd></div>
+            </dl>
+            <p class="kicker small" data-i18n="cam.box">Dans la boîte</p>
+            <ul class="chips"><li data-i18n="box1">Caméra Guardia équipée d'une alarme sonore</li><li data-i18n="box2">Cordon de raccordement électrique</li><li data-i18n="box3">Manuel d'utilisation</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Videos -->
+    <section id="videos" class="scene scene-short" data-shape="water" data-side="0">
+      <div class="wrap">
+        <div class="intro reveal">
+          <p class="kicker" data-i18n="vd.k">Vidéos</p>
+          <h2 class="title title-xl" data-i18n="vd.t">L'alarme <em>en situation</em></h2>
+          <p class="lede center" data-i18n="vd.p">Deux situations filmées, telles que la caméra les analyse.</p>
+        </div>
+        <div class="clips">
+          <figure class="clip clip-alarm reveal">
+            <div class="clip-frame">
+              <video muted loop playsinline controls preload="none" poster="assets/img/poster-Danger-detecte.webp" width="1920" height="1080">
+                <source src="assets/video/Danger-detecte.mp4" type="video/mp4">
+              </video>
+              <span class="hud hud-rec" aria-hidden="true"><i></i>CAM 01</span>
+            </div>
+            <figcaption><span class="clip-status" data-i18n="vd1.s">Danger détecté</span><span data-i18n="vd1.c">Un enfant non accompagné est détecté : l'alarme se déclenche.</span></figcaption>
+          </figure>
+          <figure class="clip clip-safe reveal">
+            <div class="clip-frame">
+              <video muted loop playsinline controls preload="none" poster="assets/img/poster-Adulte-detecte.webp" width="1920" height="1080">
+                <source src="assets/video/Adulte-detecte.mp4" type="video/mp4">
+              </video>
+              <span class="hud hud-rec" aria-hidden="true"><i></i>CAM 02</span>
+            </div>
+            <figcaption><span class="clip-status" data-i18n="vd2.s">Enfant accompagné</span><span data-i18n="vd2.c">L'alarme détecte que l'enfant est accompagné : aucun danger à signaler.</span></figcaption>
           </figure>
         </div>
-        <div class="video">
-          <figure>
-            <video controls preload="metadata" playsinline>
-              <source src="assets/video/Adulte-detecte.mp4" type="video/mp4">
-              Votre navigateur ne peut pas lire cette vidéo.
-            </video>
-            <figcaption>L&#x27;alarme détecte que l&#x27;enfant est accompagné. Aucun danger à signaler.</figcaption>
-          </figure>
+      </div>
+    </section>
+
+    <!-- Security -->
+    <section id="securite" class="scene" data-shape="fence" data-side="1">
+      <div class="wrap">
+        <div class="card card-wide reveal">
+          <p class="kicker" data-i18n="sc.k">Sécuriser sa piscine</p>
+          <h2 class="title" data-i18n="sc.t">Les protections existantes <em>ne suffisent pas</em></h2>
+          <p class="lede" data-i18n="sc.p">Barrière, couverture, alarme d'immersion : chacune a ses moments d'absence. Guardia veille sur toute la zone, sans rien changer à vos habitudes.</p>
+          <div class="focus">
+            <div class="focus-item">
+              <span class="fi-num">01</span>
+              <h3 data-i18n="sc1.t">La sécurité, une obligation légale</h3>
+              <p data-i18n="sc1.p">Depuis 2004, les propriétaires de piscine enterrée doivent installer un dispositif de sécurité. Notre solution complète les protections comme les bâches et les couvertures, efficaces la nuit mais ouvertes pendant la journée.</p>
+            </div>
+            <div class="focus-item">
+              <span class="fi-num">02</span>
+              <h3 data-i18n="sc2.t">Être en règle ne suffit pas</h3>
+              <p data-i18n="sc2.p">Selon les enquêtes de Santé publique France, plusieurs centaines de noyades sont à déplorer chaque année, et dans 68 % des cas un système de sécurité était présent mais n'a pas rempli sa fonction.</p>
+            </div>
+            <div class="focus-item">
+              <span class="fi-num">03</span>
+              <h3 data-i18n="sc3.t">Des systèmes inadaptés aux usages</h3>
+              <p data-i18n="sc3.p">Barrières, volets et couvertures restent souvent ouverts la journée. Les alarmes d'immersion ne détectent pas toujours la chute d'un enfant, ou sont désactivées à cause de leurs déclenchements intempestifs.</p>
+            </div>
+            <div class="focus-item">
+              <span class="fi-num">04</span>
+              <h3 data-i18n="sc4.t">Une seconde ligne de protection</h3>
+              <p data-i18n="sc4.p">Notre alarme périmétrique réduit considérablement les risques de noyade. Conçue avec des familles, elle s'adapte à vos habitudes et protège dans la réalité du quotidien.</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="contenu">
-      <h2>Concrètement, comment fonctionne notre alarme intelligente ?</h2>
-      <p class="intro">Une caméra autonome, une IA embarquée, aucune donnée qui sort de chez vous.</p>
-      <div class="grille">
-        <div class="carte">
-          <h3>Alarme périmétrique</h3>
-          <p>La caméra surveille une large zone autour de la piscine et détecte si votre enfant s&#x27;en approche sans être accompagné d&#x27;un adulte.</p>
-        </div>
-        <div class="carte">
-          <h3>Anticipation précieuse</h3>
-          <p>Une puissante alarme prévient avant qu&#x27;un accident ne survienne et vous permet un gain de temps décisif pour intervenir.</p>
-        </div>
-        <div class="carte">
-          <h3>Détection intelligente</h3>
-          <p>Notre intelligence artificielle embarquée reconnaît enfants, adultes et animaux. L&#x27;alarme évite les fausses alertes (vent, ballons, bouées…).</p>
-        </div>
-        <div class="carte">
-          <h3>Respecte votre vie privée</h3>
-          <p>Aucune donnée ne sort de chez vous. Le respect de votre vie privée est primordial.</p>
-        </div>
-        <div class="carte">
-          <h3>Fonctionnement autonome</h3>
-          <p>Développée avec nos utilisateurs, l&#x27;alarme est intelligente et autonome. Plus besoin de la désactiver avant la baignade.</p>
-        </div>
-        <div class="carte">
-          <h3>Facile à installer</h3>
-          <p>La caméra est très facile à installer (mur, arbre, poteau) et ne nécessite pas de travaux autour de votre piscine.</p>
+    <!-- About -->
+    <section id="a-propos" class="scene" data-shape="beacon" data-side="-1">
+      <div class="wrap wrap-right">
+        <div class="card reveal">
+          <p class="kicker" data-i18n="ab.k">À propos</p>
+          <h2 class="title" data-i18n="ab.t">Notre mission : <em>éviter les noyades</em></h2>
+          <p data-i18n="ab.p1">De nombreux accidents surviennent encore chaque année malgré les systèmes de sécurité en place : alarmes qui dysfonctionnent, couvertures et bâches laissées ouvertes… La mission de Guardia est de tout mettre en œuvre pour éviter les noyades dans les piscines.</p>
+          <p data-i18n="ab.p2">Grâce à notre expertise en intelligence artificielle, nous avons conçu une alarme qui surveille en permanence les abords de la piscine et se fond dans les habitudes de ses utilisateurs.</p>
+          <p data-i18n="ab.p3">Guardia est née à Lyon, où elle a été accompagnée par la French Tech Saint-Étienne — Lyon et Bpifrance, et labellisée Lyon Start Up.</p>
+          <p class="kicker small" data-i18n="ab.pk">Ils nous accompagnent</p>
+          <ul class="partners">
+              <li><img src="assets/img/BPI-France.webp" alt="Bpifrance" loading="lazy"></li>
+              <li><img src="assets/img/Logo-french-tech.webp" alt="French Tech" loading="lazy"></li>
+              <li><img src="assets/img/Logo_FT_SaintEtienne-Lyon_Couleur__1_.png" alt="French Tech Saint-Étienne — Lyon" loading="lazy"></li>
+              <li><img src="assets/img/Macaron-labellise-LSU.webp" alt="Labellisé Lyon Start Up" loading="lazy"></li>
+              <li><img src="assets/img/Logo-manufactpry.webp" alt="Manufactory" loading="lazy"></li>
+          </ul>
+          <a class="press" href="https://tribunedelyon.fr/sciences-innovation/lobjet-de-la-semaine-guardia-la-camera-de-piscine-anti-noyade/" target="_blank" rel="noopener">
+            <img src="assets/img/Capture-decran-2023-04-04-155457.webp" alt="" width="538" height="565" loading="lazy">
+            <span><span class="press-k" data-i18n="ab.press.k">Ils parlent de nous · Tribune de Lyon</span><span class="press-t" data-i18n="ab.press.t">« Guardia, la caméra de piscine anti-noyade »</span></span>
+            <span class="arrow">↗</span>
+          </a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="contenu">
-      <h2>La caméra intelligente Guardia</h2>
-      <p class="intro">Contient : caméra intelligente Guardia équipée d'une alarme sonore,
-        cordon de raccordement électrique, manuel d'utilisation.</p>
-      <div class="hero-visuel">
-        <img src="assets/img/Camera-Luxonis.webp" alt="Caméra intelligente Guardia"
-             loading="lazy">
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="contenu">
-      <h2>Nos partenaires</h2>
-      <div class="partenaires">
-        <img src="assets/img/BPI-France.webp" alt="BPI France" loading="lazy">
-        <img src="assets/img/Logo-french-tech.webp" alt="French Tech" loading="lazy">
-        <img src="assets/img/Logo_FT_SaintEtienne-Lyon_Couleur__1_.png" alt="French Tech Saint-Étienne — Lyon" loading="lazy">
-        <img src="assets/img/Macaron-labellise-LSU.webp" alt="Labellisé Lyon Start Up" loading="lazy">
-        <img src="assets/img/Logo-manufactpry.webp" alt="Manufactory" loading="lazy">
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="contenu">
-      <h2>L'importance de bien sécuriser sa piscine</h2>
-      <div class="grille">
-        <div class="carte">
-          <h3>La sécurité, une obligation légale</h3>
-          <p>Depuis 2004, les propriétaires de piscine enterrée ont l&#x27;obligation légale d&#x27;installer un dispositif de sécurité. Notre solution vient compléter les moyens de protection, comme les bâches et les couvertures, qui sont efficaces pendant la nuit mais restent ouvertes pendant la journée.</p>
-        </div>
-        <div class="carte">
-          <h3>Être en conformité avec la législation ne suffit pas</h3>
-          <p>Selon les enquêtes de Santé Publique France, plusieurs centaines de noyades sont à déplorer chaque année. Le nombre de victimes chez les moins de 6 ans a doublé entre 2015 et 2018. Pourtant, dans 68 % des cas de noyades, un système de sécurité était présent mais n&#x27;a pas rempli sa fonction.</p>
-        </div>
-        <div class="carte">
-          <h3>Les systèmes actuels ne sont pas adaptés aux usages</h3>
-          <p>Barrières, volets et couvertures de protection sont souvent laissés ouverts pendant la journée. Les alarmes d&#x27;immersion ne parviennent pas toujours à détecter la chute des enfants, ou sont désactivées en raison de leur fonctionnement intempestif. Un système de sécurité efficace doit se fondre dans les habitudes et s&#x27;intégrer au mode de vie de ses utilisateurs.</p>
-        </div>
-        <div class="carte">
-          <h3>Le risque des périodes « floues »</h3>
-          <p>Les accidents surviennent le plus fréquemment dans les périodes dites « floues », lorsque les adultes s&#x27;éloignent du bassin (repas, jardinage…) et que les enfants ne sont plus sous leur surveillance étroite. Les enfants échappent à l&#x27;attention des adultes quelques minutes, malheureusement suffisantes pour qu&#x27;un drame ne survienne.</p>
-        </div>
-        <div class="carte">
-          <h3>Installer un système complémentaire réduit considérablement les risques</h3>
-          <p>L&#x27;installation de notre alarme de piscine périmétrique offre une seconde ligne de protection et réduit considérablement les risques de noyade. Notre système a été conçu en collaboration avec des familles pour s&#x27;adapter parfaitement à vos habitudes et assurer une protection qui prend en compte la réalité du quotidien.</p>
+    <!-- Contact -->
+    <section id="contact" class="scene contact" data-shape="water" data-side="0">
+      <div class="wrap">
+        <div class="intro reveal">
+          <p class="kicker" data-i18n="ct.k">Contact</p>
+          <h2 class="title title-xl" data-i18n="ct.t">Une question sur <em>l'alarme Guardia ?</em></h2>
+          <p class="lede center" data-i18n="ct.p">L'alarme, l'installation, le projet ou une demande presse : écrivez-nous, nous répondons directement.</p>
+          <div class="hero-cta center">
+            <a class="btn btn-primary magnetic" href="mailto:contact.guardiapool@gmail.com">contact.guardiapool@gmail.com<span class="arrow">↗</span></a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+      <footer class="footer">
+        <span>© Guardia SAS — <span data-i18n="ftr.tag">Alarme de piscine intelligente</span></span>
+        <span><a href="mailto:contact.guardiapool@gmail.com">contact.guardiapool@gmail.com</a> · <a href="mentions-legales/" data-i18n="ftr.legal">Mentions légales</a></span>
+      </footer>
+    </section>
+  </main>
 
-  <section class="section">
-    <div class="contenu">
-      <h2>Chiffres clés</h2>
-      <div class="chiffres">
-        <p class="chiffre">Les enfants de moins de 6 ans représentent 75 % des victimes de noyade en piscines privées.</p>
-        <p class="chiffre">Le nombre de noyades chez les moins de 6 ans a doublé entre 2015 et 2018.</p>
-        <p class="chiffre">Un enfant peut se noyer en moins de 2 minutes dans 20 cm d&#x27;eau.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="contenu">
-      <div class="bandeau">
-        <h2>Une question sur l&#x27;alarme Guardia ?</h2>
-        <p>Écrivez-nous, nous répondons directement.</p>
-        <a class="bouton" href="mailto:contact.guardiapool@gmail.com">Nous contacter</a>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="site-pied">
-  <div class="contenu">
-    <p class="mention">
-      <strong>Guardia</strong> — Alarme de piscine intelligente<br>
-      <a href="mailto:contact.guardiapool@gmail.com">contact.guardiapool@gmail.com</a>
-    </p>
-    <nav>
-        <a href="mentions-legales/">Mentions légales</a>
-    </nav>
-  </div>
-</footer>
-
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>
