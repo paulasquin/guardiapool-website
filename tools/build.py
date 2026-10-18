@@ -31,17 +31,16 @@ MAILTO = f"mailto:{EMAIL}"
 PRESS = ("https://tribunedelyon.fr/sciences-innovation/"
          "lobjet-de-la-semaine-guardia-la-camera-de-piscine-anti-noyade/")
 
-# Publisher of the site (mentions légales, LCEN art. 6) — same company as aidiligence.eu.
+# Publisher of the site (mentions légales). Paul does not want the registered office,
+# its city or his phone number on this site: the SIREN number identifies the company.
 PUBLISHER = {
     "name": "Guardia",
     "form": "société par actions simplifiée (SAS) au capital de 1 000 €",
-    "rcs": "RCS Nanterre 910 991 140",
+    "siren": "910 991 140",
     "ape": "6201Z",
     "vat": "FR81910991140",
-    "address": "6 rue des Romains, 92270 Bois-Colombes, France",
     "director": "Paul Asquin, Président",
     "email": EMAIL,
-    "phone": "+33 7 67 86 10 73",
 }
 
 # Language picked before first paint: ?lang=, then the visitor's saved choice,
@@ -185,18 +184,16 @@ STEPS = [
      ("Enfant seul près de l'eau · alarme", "Child alone near the water · alarm")),
 ]
 
-DETECTION = [
-    (("Caméra stéréo", "Stereo camera"),
-     ("Deux objectifs mesurent la distance de chaque point de la scène, comme nos deux yeux.",
-      "Two lenses measure the distance of every point in the scene, like our two eyes.")),
-    (("Estimation de pose", "Pose estimation"),
-     ("Un réseau de neurones repère le squelette de chaque personne : tête, épaules, hanches, genoux.",
-      "A neural network finds the skeleton of each person: head, shoulders, hips, knees.")),
-    (("Taille réelle", "Real height"),
-     ("Squelette et profondeur réunis donnent la taille réelle de chacun : c'est ainsi qu'un enfant "
-      "se distingue d'un adulte.",
-      "Skeleton and depth together give each person's real height: that is how a child is told "
-      "apart from an adult.")),
+DETECTION = [  # what the alarm recognises, not how: Paul does not want the technology detailed
+    (("Enfant ou adulte", "Child or adult"),
+     ("L'alarme distingue un enfant d'un adulte, et sait si l'enfant est accompagné.",
+      "The alarm tells a child from an adult, and knows whether the child is accompanied.")),
+    (("Animaux", "Animals"),
+     ("Les animaux sont reconnus comme tels : ils ne sont pas pris pour un enfant.",
+      "Animals are recognised as such: they are not mistaken for a child.")),
+    (("Objets", "Objects"),
+     ("Le vent, un ballon ou une bouée qui dérive ne déclenchent pas l'alarme.",
+      "Wind, a ball or a drifting pool float do not set the alarm off.")),
 ]
 
 FEATURES = [
@@ -470,7 +467,7 @@ def body_home():
           {t("h2", "ab.t", "Notre mission : <em>éviter les noyades</em>", "Our mission: <em>preventing drownings</em>", ' class="title"')}
           {t("p", "ab.p1", "De nombreux accidents surviennent encore chaque année malgré les systèmes de sécurité en place : alarmes qui dysfonctionnent, couvertures et bâches laissées ouvertes… La mission de Guardia est de tout mettre en œuvre pour éviter les noyades dans les piscines.", "Many accidents still happen every year despite the safety systems in place: alarms that malfunction, covers left open… Guardia's mission is to do everything possible to prevent drownings in pools.")}
           {t("p", "ab.p2", "Grâce à notre expertise en intelligence artificielle, nous avons conçu une alarme qui surveille en permanence les abords de la piscine et se fond dans les habitudes de ses utilisateurs.", "Drawing on our expertise in artificial intelligence, we designed an alarm that constantly watches the pool surroundings and blends into its users' habits.")}
-          {t("p", "ab.p3", "Guardia est née à Lyon, accompagnée par la French Tech Saint-Étienne — Lyon et Bpifrance, et labellisée Lyon Start Up.", "Guardia was born in Lyon, supported by French Tech Saint-Étienne — Lyon and Bpifrance, and labelled Lyon Start Up.")}
+          {t("p", "ab.p3", "Guardia est née à Lyon, où elle a été accompagnée par la French Tech Saint-Étienne — Lyon et Bpifrance, et labellisée Lyon Start Up.", "Guardia was born in Lyon, where it was supported by French Tech Saint-Étienne — Lyon and Bpifrance, and labelled Lyon Start Up.")}
           {t("p", "ab.pk", "Ils nous accompagnent", "They support us", ' class="kicker small"')}
           <ul class="partners">
 {partners}
@@ -627,10 +624,9 @@ def page_legal():
 
           <h2>Éditeur</h2>
           <p>Le site guardiapool.com est édité par <strong>{g["name"]}</strong>, {g["form"]},
-            immatriculée au {g["rcs"]}, code APE {g["ape"]}, TVA intracommunautaire {g["vat"]}.<br>
-            Siège social : {g["address"]}.<br>
+            SIREN {g["siren"]}, code APE {g["ape"]}, TVA intracommunautaire {g["vat"]}.<br>
             Directeur de la publication : {g["director"]}.<br>
-            Contact : <a href="mailto:{g["email"]}">{g["email"]}</a> — {g["phone"]}.</p>
+            Contact : <a href="mailto:{g["email"]}">{g["email"]}</a>.</p>
 
           <h2>Hébergement</h2>
           <p>GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107,
@@ -650,8 +646,8 @@ def page_legal():
             interdite.</p>
 
           <h2>Legal notice (English)</h2>
-          <p>Published by {g["name"]} SAS, {g["rcs"]}, VAT {g["vat"]}, {g["address"]}.
-            Publication director: Paul Asquin. Contact: <a href="mailto:{g["email"]}">{g["email"]}</a>.
+          <p>Published by {g["name"]} SAS, SIREN {g["siren"]}, VAT {g["vat"]}.
+            Publication director: Paul Asquin, President. Contact: <a href="mailto:{g["email"]}">{g["email"]}</a>.
             Hosted by GitHub, Inc. No cookies, no tracking, no personal data collected, no online
             sales.</p>
           <p><a href="../">← guardiapool.com</a></p>

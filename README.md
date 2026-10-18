@@ -62,6 +62,15 @@ Then <http://127.0.0.1:8797/> — `?lang=en` / `?lang=fr` force a language, `?de
 - `assets/video/` — the two demonstration clips; `assets/img/poster-*.webp` are their posters.
 - `assets/og.jpg` — capture of the hero at 1200×630; `assets/img/icon-256.png` — the mark.
 
+## Legal notice
+
+`mentions-legales/` names the publisher by its SIREN number and its president. By choice, it
+gives neither the registered office nor a phone number: keep it that way.
+
 ## Deployment
 
 GitHub Pages, `main` branch, repository root. The domain is declared by the `CNAME` file.
+
+Releases are tagged on `main`: `v1.0.0` is the former light-themed site, `v2.0.0` the redesign.
+To roll back, revert `main` to a tag (`git revert --no-edit v1.0.0..main` then push) — Pages
+redeploys in a minute or two, and serves `.js`/`.css` with a 10-minute cache.
